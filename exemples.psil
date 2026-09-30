@@ -1,0 +1,9 @@
+;;; Quelques exemples.                  -*- mode: lisp-data; coding: utf-8 -*-
+
+2                                       ; ↝ 2
++                                       ; ↝ #prim:+[]
+(+ 2 4)                                 ; ↝ 6
+
+(def ((even (x) (if (< x 1) true  (odd  (- x 1))))
+      (odd (x)  (if (< x 1) false (even (- x 1)))))
+  (odd 7))                              ; ↝ 1
