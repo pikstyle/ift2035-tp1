@@ -1,5 +1,4 @@
 -- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
--- HEYYYYY
 {-# OPTIONS_GHC -Wall #-}
 
 -- Ce fichier défini les fonctionalités suivantes:
