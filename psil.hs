@@ -1,4 +1,5 @@
 -- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
+-- HEYYYYY
 {-# OPTIONS_GHC -Wall #-}
 
 -- Ce fichier défini les fonctionalités suivantes:
@@ -161,6 +162,7 @@ pSexps = do pSpaces
 -- Déclare que notre analyseur syntaxique peut-être utilisé pour la fonction
 -- générique "read".
 instance Read Sexp where
+    readsPrec :: Int -> ReadS Sexp
     readsPrec _ s = case parse pSexp "" s of
                       Left _ -> []
                       Right e -> [(e,"")]
@@ -246,6 +248,7 @@ data Value = Vint Int
            | Vobjection [(Label, Value)] (Value -> Value)
 
 instance Show Value where
+    showsPrec :: Int -> Value -> ShowS
     showsPrec p (Vint n) = showsPrec p n
     showsPrec p (Vstr s) = showsPrec p ("\"" ++ s ++ "\"")
     showsPrec _p (Vobjection attrs _body) =
