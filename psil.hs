@@ -228,7 +228,7 @@ s2l (Scons (Scons (Scons (Scons Snil (Ssym "objection")) attrs)
                   (Scons Snil (Ssym arg)))
            body)
     = Lobjection (s2slots attrs) arg (s2l body)
--- ¡¡COMPLÉTER ICI!!
+s2l (Sstr t) = Lstr t
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
 s2slots :: Sexp -> [(Label, Lexp)]
