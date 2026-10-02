@@ -242,6 +242,7 @@ s2l (Scons(Scons (Scons Snil (Ssym "evidence")) valeur) (Scons Snil (Ssym blaze)
     = Levidence (s2l valeur) blaze
 -- Lbind
 s2l (Scons(Scons(Scons Snil (Ssym "bind")) attr) x) = Lbind (s2slots attr) (s2l x)
+
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
 -- s2slots est une fonction de conversion prend les attributs sous forme de 
@@ -249,11 +250,11 @@ s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
 s2slots :: Sexp -> [(Label, Lexp)]
 s2slots Snil = []
+-- ¡¡COMPLÉTER ICI!!
 -- il se peut que si il y as plus que 1 attribut appele dans objection, 
 -- e s2slots ne s'occupe que du premier car il n'y as pas d'appel recurssif 
 s2slots (Scons (Ssym label4) valeure4) = [(label4, s2l valeure4)]
 
--- ¡¡COMPLÉTER ICI!!
 s2slots se = error ("Syntaxe inconnue pour attributs d'objection: "
                     ++ (showSexp se))
 
