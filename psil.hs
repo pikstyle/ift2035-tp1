@@ -1,6 +1,6 @@
--- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
 {-# OPTIONS_GHC -Wall #-}
 
+-- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
 -- Ce fichier défini les fonctionalités suivantes:
 -- - Analyseur lexical
 -- - Analyseur syntaxique
@@ -229,10 +229,19 @@ s2l (Scons (Scons (Scons (Scons Snil (Ssym "objection")) attrs)
            body)
     = Lobjection (s2slots attrs) arg (s2l body)
 s2l (Sstr t) = Lstr t
+s2l (Scons (Scons (Scons (Scons Snil (Ssym "if")) attrs)
+                  (Scons Snil (Ssym arg))) -- faire un truc pour que ca marche
+           body)
+    = Lif (s2l condition) (s2l elif) (s2l lelse)
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
+s2l () = Levidence 
+
+-- s2slots est une fonction de conversion prend les attributs sous forme de ((left 4) (right 9)) en une liste de [(Label, Lexp)]
 
 s2slots :: Sexp -> [(Label, Lexp)]
 s2slots Snil = []
+s2slots x = 
+
 -- ¡¡COMPLÉTER ICI!!
 s2slots se = error ("Syntaxe inconnue pour attributs d'objection: "
                     ++ (showSexp se))
@@ -308,6 +317,7 @@ env0 = [("true", valbool True),
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 -- ¡¡¡ COMPLETER ICI !!! --
+eval _ (Lstr s) = Vstr s
 
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
