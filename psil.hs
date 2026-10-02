@@ -240,6 +240,7 @@ s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) elif) lelse)
 -- Levidence
 s2l (Scons(Scons (Scons Snil (Ssym "evidence")) valeur) (Scons Snil (Ssym blaze)))
     = Levidence (s2l valeur) blaze
+s2l (Scons(Scons(Scons Snil (Ssym "bind")) attr) x) = Lbind (s2slots attr) (s2l x)
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
 -- s2slots est une fonction de conversion prend les attributs sous forme de ((left 4) (right 9)) en une liste de [(Label, Lexp)]
