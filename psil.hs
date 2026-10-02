@@ -234,8 +234,11 @@ s2l (Sstr t) = Lstr t
 --            lelse)
 s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) elif) lelse)
     = Lif (s2l condition) (s2l elif) (s2l lelse)
+
+-- s2l (Scons((Scons Snil (Sym arg)) label))
+s2l (Scons(Scons (Scons Snil (Ssym "evidence")) valeur) (Scons Snil (Ssym blaze)))
+    = Levidence (s2l valeur) blaze
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
-s2l () = Levidence 
 
 -- s2slots est une fonction de conversion prend les attributs sous forme de ((left 4) (right 9)) en une liste de [(Label, Lexp)]
 
