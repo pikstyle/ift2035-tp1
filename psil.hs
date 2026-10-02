@@ -228,14 +228,14 @@ s2l (Scons (Scons (Scons (Scons Snil (Ssym "objection")) attrs)
                   (Scons Snil (Ssym arg)))
            body)
     = Lobjection (s2slots attrs) arg (s2l body)
+-- ¡¡COMPLÉTER ICI!!
 s2l (Sstr t) = Lstr t
--- s2l (Scons (Scons (Scons (Scons Snil (Ssym "if")) condition)
---                   (Scons Snil (Ssym elif))) -- faire un truc pour que ca marche
---            lelse)
+s2l (Scons(Scons(Scons Snil (Ssym "invoke"))obj)arg) 
+    = Linvoke (s2l obj) (s2l arg)
 s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) elif) lelse)
     = Lif (s2l condition) (s2l elif) (s2l lelse)
+s2l (Scons Snil (Ssym "bind")) = Lbind (s2l attr) (s2l x)
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
-s2l () = Levidence 
 
 -- s2slots est une fonction de conversion prend les attributs sous forme de ((left 4) (right 9)) en une liste de [(Label, Lexp)]
 
