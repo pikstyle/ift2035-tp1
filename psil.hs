@@ -330,14 +330,13 @@ env0 = [("true", valbool True),
 -- La fonction d'évaluation principale.
 elookup :: Env -> Var -> Value
 elookup [] request = 
-    error ("Cet élément n'est pas présent dans l'environnement : " ++ request)
-elookup ((name, value) : env) request =
+    error ("Cet élémese) : env) request =
     if name == request then value else elookup env request
 
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 eval _ (Lstr s) = Vstr s
-
+-- inshallah c'est bon
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
