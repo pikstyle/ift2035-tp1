@@ -1,6 +1,5 @@
 {-# OPTIONS_GHC -Wall #-}
-
--- test
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
 -- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
 -- Ce fichier défini les fonctionalités suivantes:
@@ -252,9 +251,8 @@ s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
 s2slots :: Sexp -> [(Label, Lexp)]
 s2slots Snil = []
--- ¡¡COMPLÉTER ICI!!
 -- il se peut que si il y as plus que 1 attribut appele dans objection, 
--- e s2slots ne s'occupe que du premier car il n'y as pas d'appel recurssif 
+-- s2slots ne s'occupe que du premier car il n'y as pas d'appel recurssif 
 s2slots (Scons (Ssym label4) valeure4) = [(label4, s2l valeure4)]
 
 s2slots se = error ("Syntaxe inconnue pour attributs d'objection: "
@@ -328,9 +326,14 @@ env0 = [("true", valbool True),
                           _ -> error ("Pas un entier: " ++ show v1))
 
 -- La fonction d'évaluation principale.
+elookup :: Env -> Var -> Value
+elookup [] request = 
+    error ("Cet élément n'est pas présent dans l'environnement : " ++ request)
+elookup ((name, value) : env) request =
+    if name == request then value else elookup env request
+
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
--- ¡¡¡ COMPLETER ICI !!! --
 eval _ (Lstr s) = Vstr s
 
 ---------------------------------------------------------------------------
