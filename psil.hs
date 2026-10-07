@@ -1,8 +1,6 @@
 {-# OPTIONS_GHC -Wall #-}
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
---allez pitie ca fonctionne
-
 -- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
 -- Ce fichier défini les fonctionalités suivantes:
 -- - Analyseur lexical
@@ -328,15 +326,11 @@ env0 = [("true", valbool True),
                           _ -> error ("Pas un entier: " ++ show v1))
 
 -- La fonction d'évaluation principale.
-elookup :: Env -> Var -> Value
-elookup [] request = 
-    error ("Cet élémese) : env) request =
-    if name == request then value else elookup env request
 
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 eval _ (Lstr s) = Vstr s
--- inshallah c'est bon
+
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
