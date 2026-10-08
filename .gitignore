@@ -28,3 +28,10 @@ cabal.project.local~
 *.synctex.gz
 *.out
 *.toc
+*.aux
+*.fdb_latexmk
+*fls
+*.log
+*.out
+*.toc
+*.synctex.gz
