@@ -1,14 +1,66 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[12pt, a4paper]{article}
 
-\title{RAPPORT TP1}
+% --- Language and encoding ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% --- Layout ---
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% --- Content ---
+\usepackage{graphicx}   % images
+\usepackage{amsmath}    % math
+\usepackage{booktabs}   % clean tables
+\usepackage{listings}   % code listings
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}  % load last
+
+\title{Rapport TP1}
 \author{Zacharie Blancherie \and Simon Mounier}
-\date{October 2026}
+\date{Octobre 2026}
 
 \begin{document}
 
+% --- la table des matieres ---
 \maketitle
+\tableofcontents
+\newpage
 
-\section{Introduction}
+% --- Description des fonction dans le TP ---
+\section{descriptions des fonctions}
+
+\subsection{Sexp}
+C'est la premiere phase de l'analyse syntaxique et lexicale de notre language
+de programation. Celui ci est en premier transformé en Sexp.
+Le Sexp represente la syntaxe interne des expressions du language PSIL.
+elle cree notament les "Scons". Les "Scons" sont essentiellment des paires 
+qui sont a la base des fonctions de notre language de programation.
+C'est comme un arbre syntaxique abstrait.
+
+\subsection{Lexp}
+Lexp introduit les objections. Comme ecris dans les donnés du travail 
+pratique, c'est un objet et une fonction en meme temps. "objection" ne peut que 
+prendre un argument mais grace a "bind", il est possible de declarer et passer
+plusieurs arguments grace au sucre syntaxique definis avec "Scons".
+
+\subsection{Sexp -> Lexp}
+C'est la deuxieme phase, S2L termine l'analyse syntaxique de notre language
+de programation et commence la compilation. il transforme l'arbre abtrait Sexp
+en Lexp. Il elimine aussi le sucre syntaxique.
+
+
+\subsection{Evaluateur}
+execute l'evaluation de l'expression par Interpretation.
+\subsection{Tests}
+Description des 5 Tests
+
+% --- Les difficultees que nous avons rencontree dans le tp ---
+\section{Difficultées rencontré}
+
+% --- notre expreience avec le language de prog haskell ---
+\section{Notre experience avec haskell}
 
 \end{document}
