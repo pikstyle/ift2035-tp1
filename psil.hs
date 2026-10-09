@@ -331,11 +331,11 @@ elookup [] _ = error ("Erreur frro")
 elookup ((name, value) : env) request = 
     if name == request then value else elookup env request 
 
-
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 eval _ (Lstr s) = Vstr s
 eval env (Lref r) = elookup env r
+eval env (Lobjection attrs arg body) = eval env body
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
