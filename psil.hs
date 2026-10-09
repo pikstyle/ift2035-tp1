@@ -229,7 +229,6 @@ s2l (Scons (Scons (Scons (Scons Snil (Ssym "objection")) attrs)
                   (Scons Snil (Ssym arg)))
            body)
     = Lobjection (s2slots attrs) arg (s2l body)
--- ¡¡COMPLÉTER ICI!!
 -- Lstr
 s2l (Sstr t) = Lstr t
 -- Linvoke
@@ -327,10 +326,16 @@ env0 = [("true", valbool True),
 
 -- La fonction d'évaluation principale.
 
+elookup :: Env -> Label -> Value
+elookup [] _ = error ("Erreur frro")
+elookup ((name, value) : env) request = 
+    if name == request then value else elookup env request 
+
+
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 eval _ (Lstr s) = Vstr s
-
+eval env (Lref r) = elookup env r 
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
