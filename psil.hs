@@ -335,7 +335,7 @@ elookup ((name, value) : env) request =
 eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 eval _ (Lstr s) = Vstr s
-eval env (Lref r) = elookup env r 
+eval env (Lref r) = elookup env r
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
