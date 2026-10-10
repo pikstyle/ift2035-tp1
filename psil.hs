@@ -1,6 +1,8 @@
 {-# OPTIONS_GHC -Wall #-}
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
+-- zach et simon
+
 -- TP-1  --- Implantation d'une sorte de Lisp          -*- coding: utf-8 -*-
 -- Ce fichier défini les fonctionalités suivantes:
 -- - Analyseur lexical
