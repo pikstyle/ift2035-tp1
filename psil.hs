@@ -240,10 +240,21 @@ s2l (Scons(Scons(Scons Snil (Ssym "invoke"))obj)arg)
 s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) elif) lelse)
     = Lif (s2l condition) (s2l elif) (s2l lelse)
 -- Levidence
-s2l (Scons(Scons (Scons Snil (Ssym "evidence")) valeur) (Scons Snil (Ssym blaze)))
+s2l (Scons
+        (Scons 
+            (Scons Snil (Ssym "evidence")) valeur)
+        (Scons Snil (Ssym blaze)))
     = Levidence (s2l valeur) blaze
 -- Lbind
-s2l (Scons(Scons(Scons Snil (Ssym "bind")) attr) x) = Lbind (s2slots attr) (s2l x)
+s2l (Scons(Scons(Scons Snil (Ssym "bind")) attr) x) 
+    = Lbind (s2slots attr)(s2l x)
+
+-- Sucre syntaxique 1 arg (cas de base)
+s2l (Scons(Scons Snil (fonction)) valeur1)
+    = Linvoke (s2l fonction) (s2l valeur1)
+
+-- Sucre syntaxique cas géneral
+s2l (Scons inner dernier)= Linvoke(s2l inner)(s2l dernier)
 
 s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
@@ -340,7 +351,14 @@ eval env (Lref r) = elookup env r
 eval env (Lobjection attrs arg body) = Vobjection valueAttrs fonction
     where valueAttrs = map (\(name, x) -> (name, eval env x)) attrs
           fonction = \valueArg -> eval ((arg, valueArg) : env) body
----------------------------------------------------------------------------
+eval env (Linvoke obj arg) = 
+    let objection = eval env obj
+        arguments = eval env arg
+
+        in case objection of
+            Vobjection _ fonction -> fonction arguments
+            _ -> error "Une fonction est attendue ici"
+--------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
 
