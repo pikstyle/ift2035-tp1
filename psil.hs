@@ -335,9 +335,9 @@ eval :: Env -> Lexp -> Value
 eval _ (Lint n) = Vint n
 eval _ (Lstr s) = Vstr s
 eval env (Lref r) = elookup env r
-eval env (Lobjection attrs arg body) = Vobjection vattrs fonction
-  where vattrs = eval (snd (attrs))     -- doit être de type [(Label, Value)]
-       -- fonction =     -- doit être de type Value -> Value
+eval env (Lobjection attrs arg body) = Vobjection valueAttrs fonction
+    where valueAttrs = map (\(name, x) -> (name, eval env x)) attrs
+          fonction = \valueArg -> eval ((arg, valueArg) : env) body
 ---------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
