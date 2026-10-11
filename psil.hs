@@ -363,8 +363,11 @@ eval env (Levidence obj blaze) =
             Vobjection attrs _ -> elookup attrs blaze 
 
 eval env (Lif condition lthen lelse) = 
-    if eval env condition == true then eval env lthen 
-    else eval env lelse
+    let conditionn = eval env condition in
+        case conditionn of 
+            Vint 0 -> eval env lelse
+            Vint _ -> eval env lthen
+
             
 --------------------------------------------------------------------------
 -- Toplevel                                                              --
