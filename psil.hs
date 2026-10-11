@@ -17,7 +17,6 @@
 import Text.ParserCombinators.Parsec -- Bibliothèque d'analyse syntaxique.
 import Data.Char                -- Conversion de Chars de/vers Int et autres.
 import System.IO                -- Pour stdout, hPutStr
-
 ---------------------------------------------------------------------------
 -- La représentation interne des expressions de notre language           --
 ---------------------------------------------------------------------------
@@ -237,8 +236,8 @@ s2l (Sstr t) = Lstr t
 s2l (Scons(Scons(Scons Snil (Ssym "invoke"))obj)arg) 
     = Linvoke (s2l obj) (s2l arg)
 -- Lif
-s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) elif) lelse)
-    = Lif (s2l condition) (s2l elif) (s2l lelse)
+s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) lthen) lelse)
+    = Lif (s2l condition) (s2l lthen) (s2l lelse)
 -- Levidence
 s2l (Scons
         (Scons 
@@ -354,10 +353,19 @@ eval env (Lobjection attrs arg body) = Vobjection valueAttrs fonction
 eval env (Linvoke obj arg) = 
     let objection = eval env obj
         arguments = eval env arg
-
         in case objection of
             Vobjection _ fonction -> fonction arguments
             _ -> error "Une fonction est attendue ici"
+
+eval env (Levidence obj blaze) =
+    let objection = eval env obj
+        in case objection of
+            Vobjection attrs _ -> elookup attrs blaze 
+
+eval env (Lif condition lthen lelse) = 
+    if (condition) then eval env lthen 
+    else eval env lelse
+            
 --------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
