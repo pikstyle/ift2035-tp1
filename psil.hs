@@ -17,6 +17,7 @@
 import Text.ParserCombinators.Parsec -- Bibliothèque d'analyse syntaxique.
 import Data.Char                -- Conversion de Chars de/vers Int et autres.
 import System.IO                -- Pour stdout, hPutStr
+import Data.Type.Equality (inner)
 ---------------------------------------------------------------------------
 -- La représentation interne des expressions de notre language           --
 ---------------------------------------------------------------------------
@@ -246,6 +247,9 @@ s2l (Scons
     = Levidence (s2l valeur) blaze
 -- Lbind
 
+s2l (Scons(Scons(Scons Snil (Ssym "def")) attr) x) 
+    = Lbind (s2slots attr)(s2l x)
+
 s2l (Scons(Scons(Scons Snil (Ssym "bind")) attr) x) 
     = Lbind (s2slots attr)(s2l x)
 
@@ -370,9 +374,9 @@ eval env (Lif condition lthen lelse) =
             Vint _ -> eval env lthen -- true
 
 eval env (Lbind attrs exxp) = 
-    let vattrs = map (\(name, x) -> (name, eval env x)) attrs
-        in eval vattrs exxp
-            
+    let envComplet = (vattrs ++ env)
+        vattrs = map (\(name, x) -> (name, eval envComplet x)) attrs
+            in eval envComplet exxp
 --------------------------------------------------------------------------
 -- Toplevel                                                              --
 ---------------------------------------------------------------------------
