@@ -245,6 +245,7 @@ s2l (Scons
         (Scons Snil (Ssym blaze)))
     = Levidence (s2l valeur) blaze
 -- Lbind
+
 s2l (Scons(Scons(Scons Snil (Ssym "bind")) attr) x) 
     = Lbind (s2slots attr)(s2l x)
 
@@ -262,9 +263,9 @@ s2l se = error ("Expression Psil inconnue: " ++ (showSexp se))
 
 s2slots :: Sexp -> [(Label, Lexp)]
 s2slots Snil = []
--- il se peut que si il y as plus que 1 attribut appele dans objection, 
--- s2slots ne s'occupe que du premier car il n'y as pas d'appel recurssif 
-s2slots (Scons (Ssym label4) valeure4) = [(label4, s2l valeure4)]
+-- 1 arg :
+s2slots (Scons (Scons Snil (Ssym label4))(valeure4)) = [(label4, (s2l valeure4))]
+s2slots (Scons innerr dernierr) = s2slots innerr ++ s2slots dernierr
 
 s2slots se = error ("Syntaxe inconnue pour attributs d'objection: "
                     ++ (showSexp se))
@@ -339,7 +340,7 @@ env0 = [("true", valbool True),
 -- La fonction d'évaluation principale.
 
 elookup :: Env -> Label -> Value
-elookup [] _ = error ("Erreur frro")
+elookup [] request = error ("Cete element nest pas dans l'env : " ++ request)
 elookup ((name, value) : env) request = 
     if name == request then value else elookup env request 
 
@@ -365,9 +366,12 @@ eval env (Levidence obj blaze) =
 eval env (Lif condition lthen lelse) = 
     let conditionn = eval env condition in
         case conditionn of 
-            Vint 0 -> eval env lelse
-            Vint _ -> eval env lthen
+            Vint 0 -> eval env lelse -- false
+            Vint _ -> eval env lthen -- true
 
+eval env (Lbind attrs exxp) = 
+    let vattrs = map (\(name, x) -> (name, eval env x)) attrs
+        in eval vattrs exxp
             
 --------------------------------------------------------------------------
 -- Toplevel                                                              --
