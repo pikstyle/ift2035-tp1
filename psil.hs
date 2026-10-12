@@ -17,7 +17,7 @@
 import Text.ParserCombinators.Parsec -- Bibliothèque d'analyse syntaxique.
 import Data.Char                -- Conversion de Chars de/vers Int et autres.
 import System.IO                -- Pour stdout, hPutStr
-import Data.Type.Equality (inner)
+
 ---------------------------------------------------------------------------
 -- La représentation interne des expressions de notre language           --
 ---------------------------------------------------------------------------
@@ -269,6 +269,9 @@ s2slots :: Sexp -> [(Label, Lexp)]
 s2slots Snil = []
 -- 1 arg :
 s2slots (Scons (Scons Snil (Ssym label4))(valeure4)) = [(label4, (s2l valeure4))]
+s2slots (Scons (Scons (Scons Snil (Ssym name)) (Scons Snil (Ssym arg))) body) 
+    = [(name,(Lobjection [] arg (s2l body)))]
+
 s2slots (Scons innerr dernierr) = s2slots innerr ++ s2slots dernierr
 
 s2slots se = error ("Syntaxe inconnue pour attributs d'objection: "
