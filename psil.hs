@@ -239,12 +239,13 @@ s2l (Scons(Scons(Scons Snil (Ssym "invoke"))obj)arg)
 -- Lif
 s2l (Scons(Scons(Scons(Scons Snil (Ssym "if")) condition) lthen) lelse)
     = Lif (s2l condition) (s2l lthen) (s2l lelse)
+
 -- Levidence
 s2l (Scons
         (Scons 
-            (Scons Snil (Ssym "evidence")) valeur)
-        (Scons Snil (Ssym blaze)))
-    = Levidence (s2l valeur) blaze
+            (Scons Snil (Ssym "evidence")) obj)
+        (Scons Snil (Ssym nom)))
+    = Levidence (s2l obj) nom
 -- Lbind
 
 s2l (Scons(Scons(Scons Snil (Ssym "def")) attr) x) 
@@ -347,7 +348,7 @@ env0 = [("true", valbool True),
 -- La fonction d'évaluation principale.
 
 elookup :: Env -> Label -> Value
-elookup [] request = error ("Cete element nest pas dans l'env : " ++ request)
+elookup [] request = error ("Cet element nest pas dans l'env : " ++ request)
 elookup ((name, value) : env) request = 
     if name == request then value else elookup env request 
 
@@ -357,7 +358,7 @@ eval _ (Lstr s) = Vstr s
 eval env (Lref r) = elookup env r
 eval env (Lobjection attrs arg body) = Vobjection valueAttrs fonction
     where valueAttrs = map (\(name, x) -> (name, eval env x)) attrs
-          fonction = \valueArg -> eval ((arg, valueArg) : env) body
+          fonction = \valueArg -> eval ((arg, valueArg) : env ++ valueAttrs) body
 eval env (Linvoke obj arg) = 
     let objection = eval env obj
         arguments = eval env arg
@@ -365,10 +366,10 @@ eval env (Linvoke obj arg) =
             Vobjection _ fonction -> fonction arguments
             _ -> error "Une fonction est attendue ici"
 
-eval env (Levidence obj blaze) =
+eval env (Levidence obj nom) =
     let objection = eval env obj
         in case objection of
-            Vobjection attrs _ -> elookup attrs blaze 
+            Vobjection attrs _ -> elookup attrs nom 
 
 eval env (Lif condition lthen lelse) = 
     let conditionn = eval env condition in

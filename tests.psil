@@ -1,0 +1,21 @@
+; 1. test pour le if, doit renvoyer "different"
+
+(if (== 4 5) "egaux" "different")
+
+; 2. test pour le bind, doit renvoyer 20
+
+(bind ((x 10)(y 2)) (* x y))
+
+; 3. test de d'appel d'objection, doit retourner 1300
+
+(invoke (objection ((euro 10) (franc_suisse 300)) (x) (+ x franc_suisse)) 10)
+
+; 4. test de renvoie d'attribut d'objection, doit retourner 300
+
+(evidence (objection ((euro 10) (franc_suisse 300)) (x) (+ x franc_suisse)) (franc_suisse))
+
+; 5. test final, doit retourner 210
+
+(invoke (objection ((a 2)(b (if (< 4 5) 100 3)) (franc_suisse 2)) (x)
+          (+ x (* b franc_suisse)))
+        10)
